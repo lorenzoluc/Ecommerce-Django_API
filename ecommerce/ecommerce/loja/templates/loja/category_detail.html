@@ -1,0 +1,38 @@
+<!----------------------------------------------------------------------------------------------------
+Filter by category. Dynamically from context_processors
+------------------------------------------------------------------------------------------------------->
+
+
+{% extends 'base.html' %}
+
+
+{% block title %}Home{% endblock %}
+{% block content %}
+<!-- Category Details -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">{{ class_name }}</h2>
+
+    {% if products %}
+        <div class="row">
+            {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                            </a>
+                            <p class="text-success fw-bold">$ {{ product.price }}</p>
+                            <a href="{% url 'buy_product' product.id %}" class="btn btn-primary">Buy</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">Não há produtos nesta categoria.</p>
+    {% endif %}
+</div>
+{% endblock %}

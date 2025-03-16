@@ -1,0 +1,62 @@
+<!----------------------------------------------------------------------------------------------------
+Follow your shopping, if any
+------------------------------------------------------------------------------------------------------->
+
+
+{% extends 'base.html' %}
+
+{% block title %} FollowShopping | E-Shop{% endblock %}
+{% block content %}
+<div class="container mt-4">
+        <h1 class="mb-4">🛒 My Purchases</h1>
+
+        {% if purchases %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Seller</th>
+                            <th>Status</th>
+                            <th>Date Purchased</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for purchase in purchases %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'product_detail' purchase.product.id %}" class="text-decoration-none">
+                                        {{ purchase.product.name }}
+                                    </a>
+                                </td>
+                                <td>${{ purchase.product.price }}</td>
+                                <td>{{ purchase.quantity }}</td>
+                                <td>{{ purchase.seller.username }}</td>
+                                <td>
+                                    <span class="badge
+                                        {% if purchase.status == 'pending' %} bg-warning
+                                        {% elif purchase.status == 'shipped' %} bg-primary
+                                        {% elif purchase.status == 'delivered' %} bg-success
+                                        {% elif purchase.status == 'canceled' %} bg-danger
+                                        {% endif %}
+                                    ">
+                                        {{ purchase.get_status_display }}
+                                    </span>
+                                <td>{{ purchase.purchased_at|date:"F j, Y, g:i a" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                You haven't purchased anything yet.
+            </div>
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="btn btn-primary mt-3">⬅ Back to Shop</a>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+<!----------------------------------------------------------------------------------------------------
+Home page listing the main products in terms of visualization (code on the views)
+------------------------------------------------------------------------------------------------------->
+
+
+{% extends 'base.html' %}
+
+
+{% block title %}Home{% endblock %}
+{% block content %}
+ <!-- Banner -->
+    <header class="banner">
+        <h1>Welcome</h1>
+    </header>
+<!-- Products -->
+    <div class="container mt-5">
+            <h2 class="text-center mb-4">Best deals</h2>
+            <div class="row">
+                {% for product in products %}
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <a href="{% url 'product_detail' product.id %}">
+                            <img src="{{product.image.url}}" class="card-img-top" alt="{{product.name}}">
+                        </a>
+                        <div class="card-body">
+                            <a href="{% url 'product_detail' product.id %}">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                            </a>
+                            <p class="text-success fw-bold">$ {{ product.price }}</p>
+                            <a href="{% url 'buy_product' product.id %}" class="btn btn-primary">Buy</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+{% endblock %}
+
